@@ -1,0 +1,110 @@
+body{
+background-color: black;
+font-size: 0px;
+margin: 0px;
+}
+div.row div{
+width: 20px;
+height: 20px;
+display: inline-block;
+}
+	div.brick{
+		background-color: blue;
+	}
+	div.coin{
+		background: url('images/coin.gif');
+		background-repeat: no-repeat;
+		background-position: center;
+	}				
+	div.empty{
+		background: url('');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	div.cherry{
+		background: url('images/cherry.png');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	div#ghost{
+		background: url('images/ghost_blinky.png');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		width: 20px;
+		height: 20px;
+		position: absolute;
+	}			
+	div#pacman{
+		background: url('images/pacman.gif');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		width: 20px;
+		height: 20px;
+		position: absolute;
+
+	}
+	.right{
+		transform: none;
+	}
+	.left{
+		transform: rotate(180deg);
+	}
+	.up{
+		transform: rotate(270deg);
+	}
+	.down{
+		transform: rotate(90deg);
+	}
+	div#score{
+		border: 1px solid white;
+		width: 100px;
+		height: 20px;
+		color: white;
+		padding: 7px;
+		text-align: left;
+		position: absolute;
+		top: 10px;
+		left: 210px;
+		font-size: 18px;
+	}
+	div#lives{
+		border: 1px solid white;
+		width: 100px;
+		height: 20px;
+		color: white;
+		padding: 7px;
+		text-align: left;
+		position: absolute;
+		top: 50px;
+		left: 210px;
+		font-size: 18px;
+	}
+	div#game_over{
+		display: none;
+		font-size: 12px;
+		background-color: black;
+		border: 1px solid white;
+		width: 120px;
+		height: 80px;
+		padding: 20px;
+		text-align: center;
+		color: white;
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		transition: width 2s;
+	}
+	div#game_over p{
+		margin:2px;
+	}
+	div#game_over button{
+		background-color: blue;
+		color: white;
+		border: 0;
+		border-style: none;
+		height: 20px;
+		width: 100px;
+		margin: 15px 0px;
+	}
