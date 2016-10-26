@@ -174,7 +174,7 @@
 			enemies[i].y += 5;
 			if(enemies[i].y > 540){
 				enemies[i].y = 0;
-				enemies[i].x = Math.random()*1000;
+				Math.floor(enemies[i].x = Math.random()*1000);
 			}
 		}
 	}
@@ -223,7 +223,7 @@
 				if(Math.abs(bullets[i].x - enemies[j].x < 10) && Math.abs(bullets[i].y - enemies[j].y < 10)){
 					explosion.play();
 					enemies[j].y = 0;
-					enemies[j].x = Math.random()*500;
+					enemies[j].x = Math.floor(Math.random()*1000);
 					bullets[i] = bullets[bullets.length-1];
 					bullets.pop();
 					score += 10;
