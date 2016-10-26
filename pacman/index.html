@@ -73,6 +73,8 @@
 		}
 		function gameOver(){
 			console.log('Game Over!');
+			console.log('ggpacman '+pacman.x+','+pacman.y);
+			console.log('ggghost '+ghost.x+','+ghost.y);
 			document.getElementById('game_over').innerHTML = '<p>GAME OVER</p>'+'<p>Score: '+score+'</p><button id="reset">Play Again</button>';
 			document.getElementById('game_over').style.display = 'block';
 			document.getElementById('score').style.display = 'none';
@@ -155,6 +157,8 @@
 				ghost.y++;
 			}
 
+			console.log('pacman '+pacman.x+','+pacman.y);
+			console.log('ghost '+ghost.x+','+ghost.y);
 			//Scoring 10 points for a coin
 			if(world[pacman.y][pacman.x] == 1){
 				world[pacman.y][pacman.x] = 0;
@@ -170,7 +174,7 @@
 				displayScore();
 			}
 			//if Pacman hits a ghost he loses a life and player loses 25 points
-			if(world[pacman.y][pacman.x] == world[ghost.y][ghost.x]){
+			if(pacman.y == ghost.y && pacman.x == ghost.x){
 				score -= 25;
 				lives -= 1;
 				if(lives == 0){
