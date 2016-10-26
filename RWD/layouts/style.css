@@ -1,0 +1,50 @@
+@media all and (max-width: 939px) {
+	#wrapper{
+		width: 90%;
+	}
+		#header{
+			background-color: grey;
+		}
+
+		#nav{
+			display: none;
+		}
+		
+		#content{
+			display: block;
+		}
+			.content_chunk{
+				display: inline-block;
+				width: 33%;
+			}
+			.content_chunk:last-child{
+				display: block;
+				width: 100%;
+			}
+}
+
+@media all and (min-width: 940px) {
+	#wrapper{
+		width: 90%;
+	}
+		#header{
+			background-color: grey;
+		}
+
+		#nav li{
+				display: inline-block;
+				height: 20px;
+				padding: 10px;
+				background-color: grey;
+				border: 1px solid black;
+		}
+		
+		#content{
+			display: block;
+		}
+			.content_chunk{
+				display: inline-block;
+				width: 24%;
+			}
+
+}
