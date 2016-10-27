@@ -12,9 +12,12 @@ display: inline-block;
 		background-color: blue;
 	}
 	div.coin{
-		background: url('images/coin.gif');
+		background: url('images/coin.png');
 		background-repeat: no-repeat;
 		background-position: center;
+		background-size: 5px;
+		width: 20px;
+		height: 20px;
 	}				
 	div.empty{
 		background: url('');
