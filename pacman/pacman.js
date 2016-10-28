@@ -1,15 +1,15 @@
-$(document).ready(function(){		
+$(document).ready(function(){
 	var world = [
-		[2,2,2,2,2,2,2,2,2,2],			
+		[2,2,2,2,2,2,2,2,2,2],
 		[2,0,1,1,1,1,1,1,1,2],
-		[2,1,2,1,2,2,1,2,1,2],			
+		[2,1,2,1,2,2,1,2,1,2],
 		[2,1,2,1,1,3,1,2,1,2],
 		[2,1,2,1,3,1,1,2,1,2],
 		[2,1,2,1,2,2,1,2,1,2],
 		[2,1,1,1,1,1,1,1,1,2],
 		[2,2,2,2,2,2,2,2,2,2]
 	];
-	var lives = 1;
+	var lives = 3;
 	var score = 0;
 	var pacman = {
 		x: 1,
@@ -21,6 +21,52 @@ $(document).ready(function(){
 	};
 	var ghost_direction = 1;
 
+	//use an invulnerable variable so it's not possible to lose multiple lives for the same error.
+	var invulnerable = false;
+	//move the repeated checking if pacman was hit code into another function for readability
+	function checkHit(){
+		//if Pacman hits a ghost he loses a life and player loses 25 points
+		//if they are not invulnerable, go into if statement
+		if(pacman.y == ghost.y && pacman.x == ghost.x && !invulnerable){
+			invulnerable = true; //make them invulnerable
+			setTimeout(function(){ //set a timeout to make them vulnerable in 3 seconds
+				invulnerable = false;
+			}, 3000);
+
+			if (score - 25 <= 0) {
+				score = 0;
+			} else {
+				score -= 25;
+			}
+			displayScore();
+
+			lives -= 1;
+			if(lives <= 0){
+				setTimeout(gameOver, 500);
+			}
+			displayLives();
+		}
+	}
+	function moveGhost(){
+		////////////////////////
+		//Ghost Movement
+		////////////////////////
+		ghost_direction = Math.floor((Math.random() * 4) + 1);
+		if(ghost_direction == 1 && world[ghost.y][ghost.x-1] != 2){
+			ghost.x--;
+		}
+		else if(ghost_direction == 2 && world[ghost.y][ghost.x+1] != 2){
+			ghost.x++;
+		}
+		else if(ghost_direction == 3 && world[ghost.y-1][ghost.x] != 2){
+			ghost.y--;
+		}
+		else if(ghost_direction == 4 && world[ghost.y+1][ghost.x] != 2){
+			ghost.y++;
+		}
+
+		checkHit();
+	}
 	function displayWorld(){
 		var output='';
 		for(var i=0; i<world.length; i++){
@@ -29,15 +75,14 @@ $(document).ready(function(){
 				if(world[i][j]==3)
 					output +="\n\t<div class='cherry'></div>";
 				else if(world[i][j]==2)
-					output +="\n\t<div class='brick'></div>";	
+					output +="\n\t<div class='brick'></div>";
 				else if(world[i][j]==1)
 					output +="\n\t<div class='coin'></div>";
 				else if(world[i][j]==0)
-					output +="\n\t<div class='empty'></div>";			
+					output +="\n\t<div class='empty'></div>";
 			}
 			output += "\n</div>"
 		}
-		// console.log(world);
 		document.getElementById('world').innerHTML = output;
 	}
 	function displayPacMan(){
@@ -55,20 +100,17 @@ $(document).ready(function(){
 		document.getElementById('lives').innerHTML = 'Lives: ' + lives;
 	}
 	function gameOver(){
-		console.log('Game Over!');
-		console.log('ggpacman '+pacman.x+','+pacman.y);
-		console.log('ggghost '+ghost.x+','+ghost.y);
 		document.getElementById('game_over').innerHTML = '<p>GAME OVER</p>'+'<p>Score: '+score+'</p><button id="reset">Play Again</button>';
 		document.getElementById('game_over').style.display = 'block';
 		document.getElementById('score').style.display = 'none';
 		document.getElementById('lives').style.display = 'none';
 		document.getElementById('reset').addEventListener("click", function(){
-			lives = 1;
+			lives = 3;
 			score = 0;
 			world = [
-				[2,2,2,2,2,2,2,2,2,2],			
+				[2,2,2,2,2,2,2,2,2,2],
 				[2,0,1,1,1,1,1,1,1,2],
-				[2,1,2,1,2,2,1,2,1,2],			
+				[2,1,2,1,2,2,1,2,1,2],
 				[2,1,2,1,1,3,1,2,1,2],
 				[2,1,2,1,3,1,1,2,1,2],
 				[2,1,2,1,2,2,1,2,1,2],
@@ -102,6 +144,13 @@ $(document).ready(function(){
 	displayScore();
 	displayLives();
 
+	// make movement of ghost not dependent on user key presses
+	setInterval(function(){
+		moveGhost();
+		displayWorld();
+		displayPacMan();
+		displayGhost();
+	}, 300);
 	//Game Movement & Scoring
 	document.onkeydown = function(e){
 		//////////////////
@@ -123,25 +172,6 @@ $(document).ready(function(){
 			pacman.y++;
 			document.getElementById('pacman').className = 'down';
 		}
-		////////////////////////
-		//Ghost Movement
-		////////////////////////
-		ghost_direction = Math.floor((Math.random() * 4) + 1);
-		if(ghost_direction == 1 && world[ghost.y][ghost.x-1] != 2){
-			ghost.x--;
-		}
-		else if(ghost_direction == 2 && world[ghost.y][ghost.x+1] != 2){
-			ghost.x++;
-		}
-		else if(ghost_direction == 3 && world[ghost.y-1][ghost.x] != 2){
-			ghost.y--;
-		}
-		else if(ghost_direction == 4 && world[ghost.y+1][ghost.x] != 2){
-			ghost.y++;
-		}
-
-		console.log('pacman '+pacman.x+','+pacman.y);
-		console.log('ghost '+ghost.x+','+ghost.y);
 		//Scoring 10 points for a coin
 		if(world[pacman.y][pacman.x] == 1){
 			world[pacman.y][pacman.x] = 0;
@@ -156,16 +186,8 @@ $(document).ready(function(){
 			displayWorld();
 			displayScore();
 		}
-		//if Pacman hits a ghost he loses a life and player loses 25 points
-		if(pacman.y == ghost.y && pacman.x == ghost.x){
-			score -= 25;
-			lives -= 1;
-			if(lives == 0){
-				setTimeout(gameOver, 500);
-			}
-			displayScore();
-			displayLives();
-		}
+
+		checkHit();
 		displayGhost();
 		displayPacMan();
 	}
